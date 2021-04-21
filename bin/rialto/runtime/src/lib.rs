@@ -416,17 +416,6 @@ parameter_types! {
 	pub const MaxRequests: u32 = 50;
 }
 
-#[cfg(feature = "runtime-benchmarks")]
-parameter_types! {
-	// Number of headers to keep in benchmarks.
-	//
-	// In benchmarks we always populate with full number of `HeadersToKeep` to make sure that
-	// pruning is taken into account.
-	// This is lower than regular value, to speed up benchmarking setup.
-	pub const HeadersToKeep: u32 = 1024;
-}
-
-#[cfg(not(feature = "runtime-benchmarks"))]
 parameter_types! {
 	// Number of headers to keep.
 	//
