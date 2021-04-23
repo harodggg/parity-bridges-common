@@ -49,6 +49,11 @@ sp-inherents = { git = "https://github.com/paritytech/substrate", branch = "mast
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "master" }
 substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
+# BEEFY dependencies
+beefy-primitives = { git = "https://github.com/paritytech/grandpa-bridge-gadget", branch = "master" }
+beefy-gadget = { git = "https://github.com/paritytech/grandpa-bridge-gadget", branch = "master" }
+beefy-gadget-rpc = { git = "https://github.com/paritytech/grandpa-bridge-gadget", branch = "master" }
+
 [build-dependencies]
 substrate-build-script-utils = "3.0.0"
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "master" }

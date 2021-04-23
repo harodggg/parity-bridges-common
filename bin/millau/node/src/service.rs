@@ -188,6 +188,8 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
 		.extra_sets
 		.push(sc_finality_grandpa::grandpa_peers_set_config());
 
+	config.network.extra_sets.push(beefy_gadget::beefy_peers_set_config());
+
 	let (network, network_status_sinks, system_rpc_tx, network_starter) =
 		sc_service::build_network(sc_service::BuildNetworkParams {
 			config: &config,
@@ -209,6 +211,9 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
 	let name = config.network.node_name.clone();
 	let enable_grandpa = !config.disable_grandpa;
 	let prometheus_registry = config.prometheus_registry().cloned();
+
+	let (signed_commitment_sender, signed_commitment_stream) =
+		beefy_gadget::notification::BeefySignedCommitmentStream::channel();
 
 	let rpc_extensions_builder = {
 		use sc_finality_grandpa::FinalityProofProvider as GrandpaFinalityProofProvider;
@@ -297,6 +302,20 @@ pub fn new_full(mut config: Configuration) -> Result<TaskManager, ServiceError> 
 		// fails we take down the service with it.
 		task_manager.spawn_essential_handle().spawn_blocking("aura", aura);
 	}
+
+	// Start the BEEFY bridge gadget.
+	task_manager.spawn_essential_handle().spawn_blocking(
+		"beefy-gadget",
+		beefy_gadget::start_beefy_gadget::<_, beefy_primitives::ecdsa::AuthorityPair, _, _, _, _>(
+			client,
+			keystore_container.sync_keystore(),
+			network.clone(),
+			signed_commitment_sender,
+			network.clone(),
+			4,
+			prometheus_registry.clone(),
+		),
+	);
 
 	// if the node isn't actively participating in consensus then it doesn't
 	// need a keystore, regardless of which protocol we use below.

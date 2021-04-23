@@ -34,6 +34,7 @@ pub mod rialto_messages;
 
 use crate::rialto_messages::{ToRialtoMessagePayload, WithRialtoMessageBridge};
 
+use beefy_primitives::{ecdsa::AuthorityId as BeefyId, ValidatorSet};
 use bridge_runtime_common::messages::{source::estimate_message_dispatch_and_delivery_fee, MessageBridge};
 use codec::Decode;
 use pallet_grandpa::{fg_primitives, AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList};
@@ -122,6 +123,7 @@ impl_opaque_keys! {
 	pub struct SessionKeys {
 		pub aura: Aura,
 		pub grandpa: Grandpa,
+		pub beefy: Beefy,
 	}
 }
 
@@ -230,6 +232,10 @@ impl pallet_grandpa::Config for Runtime {
 	type HandleEquivocation = ();
 	// TODO: update me (https://github.com/paritytech/parity-bridges-common/issues/78)
 	type WeightInfo = ();
+}
+
+impl pallet_beefy::Config for Runtime {
+	type AuthorityId = BeefyId;
 }
 
 parameter_types! {
@@ -405,6 +411,7 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Pallet, Call, Config<T>, Storage, Event<T>},
 		Session: pallet_session::{Pallet, Call, Storage, Event, Config<T>},
 		ShiftSessionManager: pallet_shift_session_manager::{Pallet},
+		Beefy: pallet_beefy::{Pallet, Config<T>},
 	}
 );
 
@@ -589,6 +596,12 @@ impl_runtime_apis! {
 
 		fn is_known_header(hash: bp_westend::Hash) -> bool {
 			BridgeWestendGrandpa::is_known_header(hash)
+		}
+	}
+
+	impl beefy_primitives::BeefyApi<Block, BeefyId> for Runtime {
+		fn validator_set() -> ValidatorSet<BeefyId> {
+			Beefy::validator_set()
 		}
 	}
 
