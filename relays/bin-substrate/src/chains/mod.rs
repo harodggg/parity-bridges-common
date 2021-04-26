@@ -27,6 +27,7 @@ pub mod westend_headers_to_rococo;
 mod millau;
 mod rialto;
 mod rococo;
+mod template;
 mod westend;
 
 use relay_utils::metrics::{FloatJsonValueMetric, MetricsParams};
