@@ -9,3 +9,7 @@ members = [
 	"primitives/*",
 	"relays/*",
 ]
+
+[patch.crates-io]
+jsonrpsee-proc-macros = { git = "https://github.com/paritytech/jsonrpsee", branch = "na-fix-td-issue" }
+jsonrpsee-ws-client = { git = "https://github.com/paritytech/jsonrpsee", branch = "na-fix-td-issue" }
