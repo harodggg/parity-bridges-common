@@ -336,6 +336,24 @@ impl pallet_bridge_grandpa::Config<WestendGrandpaInstance> for Runtime {
 	type WeightInfo = pallet_bridge_grandpa::weights::RialtoWeight<Runtime>;
 }
 
+// NOTE: I'm cheating a bit here - you should probably pull these in from the source
+// runtime/primitives instead of hardcoding the parameters here
+pub struct Template;
+impl bp_runtime::Chain for Template {
+	type BlockNumber = u32;
+	type Hash = sp_core::H256;
+	type Hasher = sp_runtime::traits::BlakeTwo256;
+	type Header = generic::Header<Self::BlockNumber, Self::Hasher>;
+}
+
+pub type TemplateGrandpaInstance = pallet_bridge_grandpa::Instance2;
+impl pallet_bridge_grandpa::Config<TemplateGrandpaInstance> for Runtime {
+	type BridgedChain = Template;
+	type MaxRequests = MaxRequests;
+	type HeadersToKeep = HeadersToKeep;
+	type WeightInfo = ();
+}
+
 impl pallet_shift_session_manager::Config for Runtime {}
 
 parameter_types! {
@@ -394,6 +412,7 @@ construct_runtime!(
 		BridgeDispatch: pallet_bridge_dispatch::{Pallet, Event<T>},
 		BridgeRialtoGrandpa: pallet_bridge_grandpa::{Pallet, Call, Storage},
 		BridgeWestendGrandpa: pallet_bridge_grandpa::<Instance1>::{Pallet, Call, Config<T>, Storage},
+		BridgeTemplateGrandpa: pallet_bridge_grandpa::<Instance2>::{Pallet, Call, Config<T>, Storage},
 		System: frame_system::{Pallet, Call, Config, Storage, Event<T>},
 		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Pallet, Call, Storage},
 		Timestamp: pallet_timestamp::{Pallet, Call, Storage, Inherent},
