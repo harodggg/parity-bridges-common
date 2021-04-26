@@ -22,7 +22,7 @@ use relay_template_client::Template;
 use sp_version::RuntimeVersion;
 
 impl CliChain for Template {
-	const RUNTIME_VERSION: RuntimeVersion = bridge_runtime::VERSION;
+	const RUNTIME_VERSION: RuntimeVersion = template_runtime::VERSION;
 
 	type KeyPair = sp_core::sr25519::Pair;
 	type MessagePayload = ();

@@ -17,7 +17,7 @@ relay-utils = { path = "../utils" }
 bp-template = { path = "../../primitives/chain-template" }
 
 # NOTE: Cheating a bit by doing this
-bridge-runtime = { path = "../../bin/template/runtime" }
+template-runtime = { path = "../../bin/template/runtime" }
 
 # Substrate Dependencies
 

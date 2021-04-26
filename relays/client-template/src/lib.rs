@@ -23,34 +23,34 @@ use sp_runtime::{generic::SignedPayload, traits::IdentifyAccount};
 use std::time::Duration;
 
 /// Template header id.
-pub type HeaderId = relay_utils::HeaderId<bridge_runtime::Hash, bridge_runtime::BlockNumber>;
+pub type HeaderId = relay_utils::HeaderId<template_runtime::Hash, template_runtime::BlockNumber>;
 
 /// Template header type used in headers sync.
-pub type SyncHeader = relay_substrate_client::SyncHeader<bridge_runtime::Header>;
+pub type SyncHeader = relay_substrate_client::SyncHeader<template_runtime::Header>;
 
 /// Template chain definition
 #[derive(Debug, Clone, Copy)]
 pub struct Template;
 
 impl ChainBase for Template {
-	type BlockNumber = bridge_runtime::BlockNumber;
-	type Hash = bridge_runtime::Hash;
-	type Hasher = bridge_runtime::Hasher;
-	type Header = bridge_runtime::Header;
+	type BlockNumber = template_runtime::BlockNumber;
+	type Hash = template_runtime::Hash;
+	type Hasher = template_runtime::Hasher;
+	type Header = template_runtime::Header;
 }
 
 impl Chain for Template {
 	const NAME: &'static str = "Template";
 	const AVERAGE_BLOCK_INTERVAL: Duration = Duration::from_secs(6);
 
-	type AccountId = bridge_runtime::AccountId;
-	type Index = bridge_runtime::AccountIndex;
-	type SignedBlock = bridge_runtime::SignedBlock;
-	type Call = bridge_runtime::Call;
+	type AccountId = template_runtime::AccountId;
+	type Index = template_runtime::AccountIndex;
+	type SignedBlock = template_runtime::SignedBlock;
+	type Call = template_runtime::Call;
 }
 
 impl ChainWithBalances for Template {
-	type NativeBalance = bridge_runtime::Balance;
+	type NativeBalance = template_runtime::Balance;
 
 	fn account_info_storage_key(account_id: &Self::AccountId) -> StorageKey {
 		StorageKey(bp_template::account_info_storage_key(account_id))
@@ -60,7 +60,7 @@ impl ChainWithBalances for Template {
 impl TransactionSignScheme for Template {
 	type Chain = Template;
 	type AccountKeyPair = sp_core::sr25519::Pair;
-	type SignedTransaction = bp_template::UncheckedExtrinsic<bridge_runtime::Call>;
+	type SignedTransaction = bp_template::UncheckedExtrinsic<template_runtime::Call>;
 
 	fn sign_transaction(
 		genesis_hash: <Self::Chain as ChainBase>::Hash,
@@ -71,7 +71,7 @@ impl TransactionSignScheme for Template {
 		let raw_payload = SignedPayload::new(
 			call,
 			bp_template::SignedExtensions::new(
-				bridge_runtime::VERSION,
+				template_runtime::VERSION,
 				sp_runtime::generic::Era::Immortal,
 				genesis_hash,
 				signer_nonce,

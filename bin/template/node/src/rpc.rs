@@ -7,7 +7,7 @@
 
 use std::sync::Arc;
 
-use bridge_runtime::{opaque::Block, AccountId, Balance, Index};
+use template_runtime::{opaque::Block, AccountId, Balance, Index};
 pub use sc_rpc_api::DenyUnsafe;
 use sp_api::ProvideRuntimeApi;
 use sp_block_builder::BlockBuilder;

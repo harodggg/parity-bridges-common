@@ -49,7 +49,7 @@ relay-westend-client = { path = "../client-westend" }
 rialto-runtime = { path = "../../bin/rialto/runtime" }
 
 # This is our bridge template
-bridge-runtime = { path = "../../bin/template/runtime" }
+template-runtime = { path = "../../bin/template/runtime" }
 
 # Substrate Dependencies
 

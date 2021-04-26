@@ -135,7 +135,7 @@ macro_rules! select_bridge {
 				fn encode_init_bridge(
 					init_data: InitializationData<<Source as ChainBase>::Header>,
 				) -> <Target as Chain>::Call {
-					bridge_runtime::BridgeCall::<bridge_runtime::Runtime, ()>::initialize(init_data).into()
+					template_runtime::BridgeCall::<template_runtime::Runtime, ()>::initialize(init_data).into()
 				}
 
 				$generic
