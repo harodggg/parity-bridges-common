@@ -803,6 +803,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "bp-template"
+version = "0.1.0"
+dependencies = [
+ "bp-header-chain",
+ "bp-messages",
+ "bp-polkadot-core",
+ "bp-runtime",
+ "parity-scale-codec 2.0.1",
+ "sp-api",
+ "sp-runtime",
+ "sp-std",
+ "sp-version",
+]
+
+[[package]]
 name = "bp-test-utils"
 version = "0.1.0"
 dependencies = [
@@ -6086,6 +6101,24 @@ dependencies = [
 ]
 
 [[package]]
+name = "relay-template-client"
+version = "0.1.0"
+dependencies = [
+ "bp-template",
+ "bridge-runtime",
+ "frame-support",
+ "frame-system",
+ "headers-relay",
+ "pallet-transaction-payment",
+ "parity-scale-codec 2.0.1",
+ "relay-substrate-client",
+ "relay-utils",
+ "sp-core",
+ "sp-keyring",
+ "sp-runtime",
+]
+
+[[package]]
 name = "relay-utils"
 version = "0.1.0"
 dependencies = [
@@ -8595,6 +8628,7 @@ dependencies = [
  "bp-rococo",
  "bp-runtime",
  "bp-westend",
+ "bridge-runtime",
  "bridge-runtime-common",
  "finality-grandpa 0.14.0",
  "finality-relay",
@@ -8618,6 +8652,7 @@ dependencies = [
  "relay-rialto-client",
  "relay-rococo-client",
  "relay-substrate-client",
+ "relay-template-client",
  "relay-utils",
  "relay-westend-client",
  "rialto-runtime",
