@@ -32,8 +32,11 @@ pub use frame_support::{
 	},
 	StorageValue,
 };
+
 pub use pallet_balances::Call as BalancesCall;
+pub use pallet_bridge_grandpa::Call as BridgeCall;
 pub use pallet_timestamp::Call as TimestampCall;
+
 use pallet_transaction_payment::CurrencyAdapter;
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
@@ -61,6 +64,9 @@ pub type Index = u32;
 
 /// A hash of some data used by the chain.
 pub type Hash = sp_core::H256;
+
+/// The type of an object that can produce hashes on this chain.
+pub type Hasher = BlakeTwo256;
 
 /// Digest item type.
 pub type DigestItem = generic::DigestItem<Hash>;
