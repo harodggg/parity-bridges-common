@@ -142,13 +142,11 @@ branch = "master"
 default-features = false
 
 [dependencies.pallet-bridge-grandpa]
-git = "https://github.com/paritytech/parity-bridges-common"
-branch = "master"
+path = "../../../modules/grandpa"
 default-features = false
 
 [dependencies.bp-millau]
-git = "https://github.com/paritytech/parity-bridges-common"
-branch = "master"
+path = "../../../primitives/chain-millau"
 default-features = false
 
 [dependencies]
