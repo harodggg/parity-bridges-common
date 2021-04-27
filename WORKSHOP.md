@@ -26,6 +26,7 @@ This is a rough step-by-step guide of what we'll be covering in today's live-cod
 anything, it's more just checkpoints that will help us as presenters more than you as an audience
 member.
 
+### Header Sync
 
 1. Add Millau instance of `pallet-bridge-grandpa` to `template-runtime`
   1. Implement Runtime APIs (May need `bp-template` first)
@@ -48,3 +49,17 @@ member.
   1. Create `template_headers_to_millau.rs`
   1. Add `MillauToTemplate` option to `relay_headers.rs`
   1. Add `TemplateToMillau` option to `relay_headers.rs`
+
+### Messages
+1. Add `TemplateToMillau` to `cli/bridge.rs`.
+  1. Implement `template_account_ownership_digest`.
+  1. Copy `millau_messages.rs` from `rialto/runtime`.
+  1. Add `AccountSigner` to `chain_template`.
+  1. Use constants from `bp_millau` as a shortcut.
+  1. Implement `pallet_bridge_messages` for template Runtime.
+  1. add bridge-messages to `construct_runtime`
+  1. Copy parameters and the implementation from `rialto/runtime` - fix issues.
+  1. Implement `pallet_bridge_dispatch` for template Runtime.
+  1. add bridge-dispatch to `construct_runtime`
+  1. Now back to `template_messages_to_millau` - fix weights
+  1. Implement messages for `MillauToTemplate`.

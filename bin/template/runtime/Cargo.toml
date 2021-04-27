@@ -145,11 +145,40 @@ default-features = false
 path = "../../../modules/grandpa"
 default-features = false
 
+[dependencies.pallet-bridge-dispatch]
+path = "../../../modules/dispatch"
+default-features = false
+
+[dependencies.pallet-bridge-messages]
+path = "../../../modules/messages"
+default-features = false
+
+
+
 [dependencies.bp-millau]
 path = "../../../primitives/chain-millau"
 default-features = false
 
+[dependencies.bp-template]
+path = "../../../primitives/chain-template"
+default-features = false
+
+[dependencies.bp-runtime]
+path = "../../../primitives/runtime"
+default-features = false
+
+[dependencies.bp-messages]
+path = "../../../primitives/messages"
+default-features = false
+
+[dependencies.bridge-runtime-common]
+path = "../../runtime-common"
+default-features = false
+
+
+
 [dependencies]
+
 codec = { default-features = false, features = ['derive'], package = 'parity-scale-codec', version = '2.0.0' }
 hex-literal = { optional = true, version = '0.3.1' }
 serde = { version = "1.0.119", optional = true, features = ["derive"] }
@@ -168,6 +197,8 @@ runtime-benchmarks = [
 ]
 std = [
     'bp-millau/std',
+    'bp-runtime/std',
+    'bp-messages/std',
     'codec/std',
     'frame-executive/std',
     'frame-support/std',
@@ -176,6 +207,8 @@ std = [
     'pallet-aura/std',
     'pallet-balances/std',
     'pallet-bridge-grandpa/std',
+    'pallet-bridge-messages/std',
+    'pallet-bridge-dispatch/std',
     'pallet-grandpa/std',
     'pallet-randomness-collective-flip/std',
     'pallet-sudo/std',

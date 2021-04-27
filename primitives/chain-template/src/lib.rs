@@ -30,6 +30,8 @@ pub use bp_polkadot_core::*;
 /// Template Chain
 pub type Template = PolkadotLike;
 
+pub type AccountSigner = sp_runtime::MultiSigner;
+
 // I think we can get away with not having this and using the runtime directly
 // pub type UncheckedExtrinsic = bp_polkadot_core::UncheckedExtrinsic<Call>;
 
