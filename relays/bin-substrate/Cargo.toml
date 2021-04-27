@@ -28,6 +28,7 @@ bp-polkadot = { path = "../../primitives/chain-polkadot" }
 bp-rialto = { path = "../../primitives/chain-rialto" }
 bp-rococo = { path = "../../primitives/chain-rococo" }
 bp-runtime = { path = "../../primitives/runtime" }
+bp-template = { path = "../../primitives/chain-template" }
 bp-westend = { path = "../../primitives/chain-westend" }
 bridge-runtime-common = { path = "../../bin/runtime-common" }
 finality-grandpa = { version = "0.14.0" }
@@ -43,9 +44,12 @@ relay-polkadot-client = { path = "../client-polkadot" }
 relay-rialto-client = { path = "../client-rialto" }
 relay-rococo-client = { path = "../client-rococo" }
 relay-substrate-client = { path = "../client-substrate" }
+relay-template-client = { path = "../client-template" }
 relay-utils = { path = "../utils" }
 relay-westend-client = { path = "../client-westend" }
+
 rialto-runtime = { path = "../../bin/rialto/runtime" }
+template-runtime = { path = "../../bin/template/runtime" }
 
 # Substrate Dependencies
 
