@@ -40,6 +40,7 @@ arg_enum! {
 	/// Headers relay bridge.
 	pub enum RelayHeadersBridge {
 		MillauToRialto,
+		MillauToTemplate,
 		RialtoToMillau,
 		WestendToMillau,
 		WestendToRococo,
@@ -82,6 +83,13 @@ macro_rules! select_bridge {
 				type Source = relay_rococo_client::Rococo;
 				type Target = relay_westend_client::Westend;
 				type Finality = crate::chains::rococo_headers_to_westend::RococoFinalityToWestend;
+
+				$generic
+			}
+			RelayHeadersBridge::MillauToTemplate => {
+				type Source = relay_millau_client::Millau;
+				type Target = relay_template_client::Template;
+				type Finality = crate::chains::millau_headers_to_template::MillauFinalityToTemplate;
 
 				$generic
 			}
