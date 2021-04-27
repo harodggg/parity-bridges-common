@@ -2,7 +2,23 @@
 
 ## 🧠 Knowledge 🧠
 
-TODO
+1. Disclaimer
+  - We are aware there is a lot of boilerplate right now, it's something we are going to optimize
+    in the future.
+  - The workshop has many rough edges still (like part of it will be improvised :)), we are polishing
+    it for Seminar &amp; Polkadot Decoded.
+
+2. What are we going to do today:
+  - Set up new network starting from `node-template`.
+  - Bridge the network with Millau network (bridges team test net).
+  - Send messages over the bridge using CLI (or UI)
+  - Show the UI
+
+3. Useful links:
+  - [High Level Overview](./docs/high-level-overview.md)
+  - [High Level Diagrams](https://paritytech.github.io/parity-bridges-common/high-level.html)
+  - [Message Lanes Analogy](./docs/bridges.jpg)
+  - [Transfer Scenario Diagram](https://paritytech.github.io/parity-bridges-common/scenario1.html)
 
 ## Live Coding
 

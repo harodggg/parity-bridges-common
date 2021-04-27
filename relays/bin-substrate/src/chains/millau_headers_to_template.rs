@@ -21,8 +21,8 @@ use crate::finality_pipeline::{SubstrateFinalitySyncPipeline, SubstrateFinalityT
 use bp_header_chain::justification::GrandpaJustification;
 use codec::Encode;
 use relay_millau_client::{Millau, SyncHeader as MillauSyncHeader};
-use relay_template_client::{Template, SigningParams as TemplateSigningParams};
 use relay_substrate_client::{Chain, TransactionSignScheme};
+use relay_template_client::{SigningParams as TemplateSigningParams, Template};
 use sp_core::{Bytes, Pair};
 
 /// Millau-to-Template finality sync pipeline.

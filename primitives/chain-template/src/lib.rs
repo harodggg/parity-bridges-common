@@ -35,8 +35,8 @@ pub type Template = PolkadotLike;
 
 // We use this to get the account on Template (target) which is derived from Rococo's (source)
 // account.
-pub fn derive_account_from_rococo_id(id: bp_runtime::SourceAccount<AccountId>) -> AccountId {
-	let encoded_id = bp_runtime::derive_account_id(bp_runtime::ROCOCO_BRIDGE_INSTANCE, id);
+pub fn derive_account_from_millau_id(id: bp_runtime::SourceAccount<AccountId>) -> AccountId {
+	let encoded_id = bp_runtime::derive_account_id(bp_runtime::MILLAU_BRIDGE_INSTANCE, id);
 	AccountIdConverter::convert(encoded_id)
 }
 
