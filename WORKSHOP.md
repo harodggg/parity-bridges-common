@@ -1,8 +1,15 @@
 # Knowledge Sharing Workshop Cheat-Sheet
 
+## 🧠 Knowledge 🧠
+
+TODO
+
+## Live Coding
+
 This is a rough step-by-step guide of what we'll be covering in today's live-coding session. If
 anything, it's more just checkpoints that will help us as presenters more than you as an audience
 member.
+
 
 1. Add Millau instance of `pallet-bridge-grandpa` to `template-runtime`
   1. Implement Runtime APIs (May need `bp-template` first)
