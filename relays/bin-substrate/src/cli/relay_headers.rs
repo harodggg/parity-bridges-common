@@ -42,6 +42,7 @@ arg_enum! {
 		MillauToRialto,
 		MillauToTemplate,
 		RialtoToMillau,
+		TemplateToMillau,
 		WestendToMillau,
 		WestendToRococo,
 		RococoToWestend,
@@ -90,6 +91,13 @@ macro_rules! select_bridge {
 				type Source = relay_millau_client::Millau;
 				type Target = relay_template_client::Template;
 				type Finality = crate::chains::millau_headers_to_template::MillauFinalityToTemplate;
+
+				$generic
+			}
+			RelayHeadersBridge::TemplateToMillau => {
+				type Source = relay_template_client::Template;
+				type Target = relay_millau_client::Millau;
+				type Finality = crate::chains::template_headers_to_millau::TemplateFinalityToMillau;
 
 				$generic
 			}
