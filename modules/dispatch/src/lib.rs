@@ -221,6 +221,7 @@ impl<T: Config<I>, I: Instance> MessageDispatch<T::AccountId, T::MessageId> for 
 				log::trace!(target: "runtime::bridge-dispatch", "Message {:?}/{:?}: rejected before actual dispatch", bridge, id);
 				Self::deposit_event(RawEvent::MessageRejected(bridge, id));
 				return MessageDispatchResult {
+					dispatch_result: false,
 					unspent_weight: 0,
 					dispatch_fee_paid_during_dispatch: false,
 				};
@@ -230,6 +231,7 @@ impl<T: Config<I>, I: Instance> MessageDispatch<T::AccountId, T::MessageId> for 
 		// verify spec version
 		// (we want it to be the same, because otherwise we may decode Call improperly)
 		let mut dispatch_result = MessageDispatchResult {
+			dispatch_result: false,
 			unspent_weight: message.weight,
 			dispatch_fee_paid_during_dispatch: false,
 		};
@@ -359,6 +361,7 @@ impl<T: Config<I>, I: Instance> MessageDispatch<T::AccountId, T::MessageId> for 
 		log::trace!(target: "runtime::bridge-dispatch", "Message being dispatched is: {:?}", &call);
 		let result = call.dispatch(origin);
 		let actual_call_weight = extract_actual_weight(&result, &dispatch_info);
+		dispatch_result.dispatch_result = result.is_ok();
 		dispatch_result.unspent_weight = message.weight.saturating_sub(actual_call_weight);
 
 		log::trace!(
@@ -626,6 +629,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert_eq!(result.unspent_weight, weight);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -655,6 +659,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert_eq!(result.unspent_weight, 7);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -685,6 +690,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert_eq!(result.unspent_weight, weight);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -733,6 +739,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert_eq!(result.unspent_weight, weight);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -761,6 +768,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert_eq!(result.unspent_weight, weight);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -787,6 +795,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| Err(()));
 			assert_eq!(result.unspent_weight, weight);
+			assert!(!result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -817,6 +826,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| Ok(()));
 			assert!(result.dispatch_fee_paid_during_dispatch);
+			assert!(result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -834,6 +844,35 @@ mod tests {
 	}
 
 	#[test]
+	fn should_return_dispatch_failed_flag_if_dispatch_happened_but_failed() {
+		new_test_ext().execute_with(|| {
+			let id = [0; 4];
+			let bridge = b"ethb".to_owned();
+
+			let call = Call::System(<frame_system::Call<TestRuntime>>::set_heap_pages(1));
+			let message = prepare_target_message(call);
+
+			System::set_block_number(1);
+			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
+			assert!(!result.dispatch_fee_paid_during_dispatch);
+			assert!(!result.dispatch_result);
+
+			assert_eq!(
+				System::events(),
+				vec![EventRecord {
+					phase: Phase::Initialization,
+					event: Event::call_dispatch(call_dispatch::Event::<TestRuntime>::MessageDispatched(
+						bridge,
+						id,
+						Err(sp_runtime::DispatchError::BadOrigin)
+					)),
+					topics: vec![],
+				}],
+			);
+		})
+	}
+
+	#[test]
 	fn should_dispatch_bridge_message_from_root_origin() {
 		new_test_ext().execute_with(|| {
 			let bridge = b"ethb".to_owned();
@@ -843,6 +882,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert!(!result.dispatch_fee_paid_during_dispatch);
+			assert!(result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -871,6 +911,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert!(!result.dispatch_fee_paid_during_dispatch);
+			assert!(result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
@@ -899,6 +940,7 @@ mod tests {
 			System::set_block_number(1);
 			let result = Dispatch::dispatch(bridge, id, Ok(message), |_, _| unreachable!());
 			assert!(!result.dispatch_fee_paid_during_dispatch);
+			assert!(result.dispatch_result);
 
 			assert_eq!(
 				System::events(),
