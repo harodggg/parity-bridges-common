@@ -42,6 +42,7 @@ arg_enum! {
 	/// Bridge to initialize.
 	pub enum InitBridgeName {
 		MillauToRialto,
+		MillauToTemplate,
 		RialtoToMillau,
 		WestendToMillau,
 		WestendToRococo,
@@ -122,6 +123,18 @@ macro_rules! select_bridge {
 					init_data: InitializationData<<Source as ChainBase>::Header>,
 				) -> <Target as Chain>::Call {
 					bp_westend::Call::BridgeGrandpaRococo(bp_westend::BridgeGrandpaRococoCall::initialize(init_data))
+				}
+
+				$generic
+			}
+			InitBridgeName::MillauToTemplate => {
+				type Source = relay_millau_client::Millau;
+				type Target = relay_template_client::Template;
+
+				fn encode_init_bridge(
+					init_data: InitializationData<<Source as ChainBase>::Header>,
+				) -> <Target as Chain>::Call {
+					template_runtime::Call::BridgeMillau(template_runtime::GrandpaCall::initialize(init_data))
 				}
 
 				$generic
