@@ -33,6 +33,7 @@ pub use frame_support::{
 	StorageValue,
 };
 
+pub use frame_system::Call as SystemCall;
 pub use pallet_balances::Call as BalancesCall;
 pub use pallet_bridge_grandpa::Call as BridgeCall;
 pub use pallet_bridge_messages::Call as MessagesCall;

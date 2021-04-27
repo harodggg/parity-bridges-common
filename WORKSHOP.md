@@ -56,10 +56,16 @@ member.
   1. Copy `millau_messages.rs` from `rialto/runtime`.
   1. Add `AccountSigner` to `chain_template`.
   1. Use constants from `bp_millau` as a shortcut.
-  1. Implement `pallet_bridge_messages` for template Runtime.
+1. Implement `pallet_bridge_messages` for template Runtime.
   1. add bridge-messages to `construct_runtime`
   1. Copy parameters and the implementation from `rialto/runtime` - fix issues.
-  1. Implement `pallet_bridge_dispatch` for template Runtime.
+1. Implement `pallet_bridge_dispatch` for template Runtime.
   1. add bridge-dispatch to `construct_runtime`
   1. Now back to `template_messages_to_millau` - fix weights
-  1. Implement messages for `MillauToTemplate`.
+1. Implement `pallet_bridge_messages` for millau Runtime (Millau -> Template)
+  1. Copy parameters from rialto for now.
+  2. Implement `crate::cli::encode_call::CliEncodeCall` trait in `chains/template.rs`.
+  3. Fix `rialto_messages_to_millau` (add instance id)
+1. Compile all & Play around with the CLI.
+  1. Encode call or message.
+1. Try to start the network.

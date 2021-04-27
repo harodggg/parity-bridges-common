@@ -105,13 +105,14 @@ impl SubstrateMessageLane for TemplateMessagesToMillau {
 			..
 		} = proof;
 		let messages_count = nonces_end - nonces_start + 1;
-		let call: millau_runtime::Call = millau_runtime::MessagesCall::receive_messages_proof(
-			self.relayer_id_at_source.clone(),
-			proof,
-			messages_count as _,
-			dispatch_weight,
-		)
-		.into();
+		let call: millau_runtime::Call =
+			millau_runtime::MessagesCall::<_, millau_runtime::WithTemplateMessagesInstance>::receive_messages_proof(
+				self.relayer_id_at_source.clone(),
+				proof,
+				messages_count as _,
+				dispatch_weight,
+			)
+			.into();
 		let call_weight = call.get_dispatch_info().weight;
 		let genesis_hash = *self.target_client.genesis_hash();
 		let transaction = Millau::sign_transaction(genesis_hash, &self.target_sign, transaction_nonce, call);

@@ -402,6 +402,39 @@ impl pallet_bridge_messages::Config<WithRialtoMessagesInstance> for Runtime {
 	type SourceHeaderChain = crate::rialto_messages::Rialto;
 	type MessageDispatch = crate::rialto_messages::FromRialtoMessageDispatch;
 }
+/// Instance of the messages pallet used to relay messages to/from Template chain.
+pub type WithTemplateMessagesInstance = pallet_bridge_messages::Instance1;
+
+impl pallet_bridge_messages::Config<WithTemplateMessagesInstance> for Runtime {
+	type Event = Event;
+	// TODO: https://github.com/paritytech/parity-bridges-common/issues/390
+	type WeightInfo = pallet_bridge_messages::weights::RialtoWeight<Runtime>;
+	type Parameter = rialto_messages::MillauToRialtoMessagesParameter;
+	type MaxMessagesToPruneAtOnce = MaxMessagesToPruneAtOnce;
+	type MaxUnrewardedRelayerEntriesAtInboundLane = MaxUnrewardedRelayerEntriesAtInboundLane;
+	type MaxUnconfirmedMessagesAtInboundLane = MaxUnconfirmedMessagesAtInboundLane;
+
+	type OutboundPayload = crate::rialto_messages::ToRialtoMessagePayload;
+	type OutboundMessageFee = Balance;
+
+	type InboundPayload = crate::rialto_messages::FromRialtoMessagePayload;
+	type InboundMessageFee = bp_rialto::Balance;
+	type InboundRelayer = bp_rialto::AccountId;
+
+	type AccountIdConverter = bp_millau::AccountIdConverter;
+
+	type TargetHeaderChain = crate::rialto_messages::Rialto;
+	type LaneMessageVerifier = crate::rialto_messages::ToRialtoMessageVerifier;
+	type MessageDeliveryAndDispatchPayment = pallet_bridge_messages::instant_payments::InstantCurrencyPayments<
+		Runtime,
+		pallet_balances::Pallet<Runtime>,
+		GetDeliveryConfirmationTransactionFee,
+		RootAccountForPayments,
+	>;
+
+	type SourceHeaderChain = crate::rialto_messages::Rialto;
+	type MessageDispatch = crate::rialto_messages::FromRialtoMessageDispatch;
+}
 
 construct_runtime!(
 	pub enum Runtime where
@@ -409,7 +442,8 @@ construct_runtime!(
 		NodeBlock = opaque::Block,
 		UncheckedExtrinsic = UncheckedExtrinsic
 	{
-		BridgeRialtoMessages: pallet_bridge_messages::{Pallet, Call, Storage, Event<T>},
+		BridgeRialtoMessages: pallet_bridge_messages::<DefaultInstance>::{Pallet, Call, Storage, Event<T>},
+		BridgeTemplateMessages: pallet_bridge_messages::<Instance1>::{Pallet, Call, Storage, Event<T>},
 		BridgeDispatch: pallet_bridge_dispatch::{Pallet, Event<T>},
 		BridgeRialtoGrandpa: pallet_bridge_grandpa::{Pallet, Call, Storage},
 		BridgeWestendGrandpa: pallet_bridge_grandpa::<Instance1>::{Pallet, Call, Config<T>, Storage},
