@@ -14,7 +14,16 @@
   - Send messages over the bridge using CLI (or UI)
   - Show the UI
 
-3. Useful links:
+3. Bridges: Why & What?
+  - Trustless connection between two chains.
+  - Layered approach (sending letter analogy).
+    - Trust Layer: on-chain light clients
+    - Messaging Layer: sequential/parallel, delivery confirmations, delivery guarantees
+    - Dispatch Layer - how to intepret the payload of the message given it's delivered
+    - Application Layer - How to use the bridge :)
+  - Bridging and XCM - differences.
+
+4. Useful links:
   - [High Level Overview](./docs/high-level-overview.md)
   - [High Level Diagrams](https://paritytech.github.io/parity-bridges-common/high-level.html)
   - [Message Lanes Analogy](./docs/bridges.jpg)
